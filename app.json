@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "appbase",
+    "slug": "appbase",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "appbase"
+}
