@@ -8,7 +8,7 @@ const Splash = () => {
     const nav = useNavigation()
     useEffect(() => {
         setTimeout(() => {
-            nav.replace('Signup')
+            nav.replace('OnBoarding2')
         }, 5000);
     }, [])
     
@@ -17,7 +17,7 @@ const Splash = () => {
         <View style={{ backgroundColor: myColors.primary, flex: 1, justifyContent: 'center' }}>
             <StatusBar style='light' />
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center',gap:15 }}>
-                <Image style={{ tintColor: 'white', height: 75, width: 65 }} source={require('../assets/mainicon.png')} />
+                <Image style={{ tintColor: 'white', height: 100, width: 100 }} source={require('../assets/unnamed.png')} />
                 <View>
                     <Text style={{fontSize:75, color:myColors.secondary}}>Jaivin</Text>
                     <Text style={{fontSize:17, color:myColors.secondary, textAlign:'center', letterSpacing:5, top:-15}}>Online Groceries</Text>
