@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable, } from 'react-native'
+import { View, Text, StyleSheet, Pressable, Platform } from 'react-native'
 import React, { useEffect, useReducer, useRef } from 'react'
 
 import { BottomTabBarProps, BottomTabNavigationOptions, createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -14,36 +14,60 @@ import { myColors } from '../Utils/MyColors'
 const Home = () => {
   const Tab = createBottomTabNavigator()
 
+  const screenOptions = {
+    headerShadowVisible: true,
+    headerStyle: {
+      backgroundColor: myColors.primary,
+    },
+    headerTitleStyle:{
+      color:myColors.secondary,
+    },
+    headerTitleAlign:'center'
+  };
+
+
+
   return (
     <>
       <StatusBar barStyle="light-content" />
 
-      <Tab.Navigator  tabBar={props => <AnimatedTabBar {...props} />} initialRouteName='Homes'>
+      <Tab.Navigator tabBar={props => <AnimatedTabBar {...props} />} initialRouteName='Homes'  >
         <Tab.Screen name="Homes" options={{
-          tabBarIcon: ({ ref }) => <Lottie ref={ref} loop={false} source={require('../assets/lottie/home.icon.json')} style={styles.icon} />
+          tabBarIcon: ({ ref }) => <Lottie ref={ref} loop={false} source={require('../assets/lottie/home.icon.json')} style={styles.icon} />,
+          headerShadowVisible: true,
+          headerStyle: {
+            backgroundColor: myColors.primary,
+          },
+          headerTitleStyle:{
+            color:myColors.secondary,
+          },
+          headerTitleAlign:'center'
         }}
           component={PlaceholderScreen}
+
         />
 
         <Tab.Screen name="Upload" options={{
-          tabBarIcon: ({ ref }) => <Lottie ref={ref} loop={false} source={require('../assets/lottie/upload.icon.json')} style={styles.icon} />
+          tabBarIcon: ({ ref }) => <Lottie ref={ref} loop={false} source={require('../assets/lottie/upload.icon.json')} style={styles.icon} />,
+          ...screenOptions,
         }}
           component={PlaceholderScreen}
         />
 
         <Tab.Screen name="Chat" options={{
-          tabBarIcon: ({ ref }) => <Lottie ref={ref} loop={false} source={require('../assets/lottie/chat.icon.json')} style={styles.icon} />
+          tabBarIcon: ({ ref }) => <Lottie ref={ref} loop={false} source={require('../assets/lottie/chat.icon.json')} style={styles.icon} />,
+          ...screenOptions,
         }}
           component={PlaceholderScreen}
         />
 
         <Tab.Screen name="Settings" options={{
-          tabBarIcon: ({ ref }) => <Lottie ref={ref} loop={false} source={require('../assets/lottie/settings.icon.json')} style={styles.icon} />
+          tabBarIcon: ({ ref }) => <Lottie ref={ref} loop={false} source={require('../assets/lottie/settings.icon.json')} style={styles.icon} />,
+          ...screenOptions,
         }}
           component={PlaceholderScreen}
         />
-
-
+        
       </Tab.Navigator>
     </>
   )
@@ -174,13 +198,15 @@ const TabBarComponent = ({ active, options, onLayout, onPress }) => {
 
 const PlaceholderScreen = () => {
   return (
-    <View style={{ flex: 1, backgroundColor: myColors.secondary }} />
+    <>
+      <View style={{ flex: 1, backgroundColor: myColors.secondary }} />
+    </>
   )
 }
 
 const styles = StyleSheet.create({
   tabBar: {
-    backgroundColor: myColors.secondary,
+    backgroundColor: myColors.primary,
   },
   activeBackground: {
     position: 'absolute',
@@ -197,7 +223,7 @@ const styles = StyleSheet.create({
   componentCircle: {
     flex: 1,
     borderRadius: 30,
-    backgroundColor: myColors.primary,
+    backgroundColor: myColors.secondary,
   },
   iconContainer: {
     position: 'absolute',

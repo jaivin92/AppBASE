@@ -1,7 +1,7 @@
 
 
 import React, { useState, useRef, useEffect } from 'react'
-import { View, Text, StyleSheet, FlatList, useWindowDimensions, Image, Animated, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, FlatList, useWindowDimensions, Image, Animated, Easing, TouchableOpacity } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { myColors } from '../Utils/MyColors'
 import { StatusBar } from 'expo-status-bar'
@@ -9,13 +9,27 @@ import OnBoardingItem from '../Components/OnBoardingItem'
 import { slides } from '../../AppData'
 import Svg, { G, Circle } from "react-native-svg";
 import { useNavigation } from '@react-navigation/native'
+import Lottie from 'lottie-react-native'
 
+const AnimatedSvg = Animated.createAnimatedComponent(Lottie)
 
 const OnBoarding2 = () => {
   const nav = useNavigation()
   const [page, setpage] = useState(0)
   const ref = useRef(null)
   const { width, height } = useWindowDimensions();
+
+  const animationProgres = useRef(new Animated.Value(0));
+
+  useEffect(() => {
+    Animated.timing(animationProgres.current, {
+      toValue: 1,
+      duration: 5000,
+      easing: Easing.linear,
+      useNativeDriver: false,
+    }).start();
+
+  }, [])
 
   const updateCurrentSlideIndex = e => {
     //console.log(`current page updateCurrentSlideIndex ->  ${page}`)
@@ -29,7 +43,7 @@ const OnBoarding2 = () => {
     console.log(`current page onscroll ->  ${page}     ${slides.length - 1}`)
     if (page < slides.length - 1) {
       ref?.current.scrollToIndex({ index: page + 1 })
-      setpage(page+1);
+      setpage(page + 1);
     } else {
       console.log("Last Item")
       nav.replace('Login');
@@ -39,24 +53,12 @@ const OnBoarding2 = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar />
-
-      <Image source={require('../assets/unnamed.png')}
-        style={{
-          resizeMode: 'center',
-          alignSelf:'flex-end',
-          width: 100,
-          height: 100,
-          marginTop: 50,
-          marginEnd:20
-        }}
-      />
-
       <FlatList
         ref={ref}
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         onMomentumScrollEnd={updateCurrentSlideIndex}
-//        scrollEventThrottle={32}
+        //        scrollEventThrottle={32}
         horizontal
         data={slides}
         renderItem={({ item }) => <OnBoardingItem item={item} />}
@@ -65,8 +67,15 @@ const OnBoarding2 = () => {
         bounces={false}
       />
 
-      <View style={{ marginBottom: 60 }}>
-        <NextBtn scrollTo={onscroll} percentage={(page + 1) * (100 / slides.length)} />
+      <View style={{ marginBottom: 60,  }}>
+        {page == slides.length - 1 ?
+          <TouchableOpacity onPress={() => onscroll()}>
+          <AnimatedSvg autoPlay loop source={require('../assets/lottie/rightarrow.icon.json')}
+            style={{height: 70, width: 70, alignSelf:'center' }} />
+            </TouchableOpacity> :
+           <NextBtn scrollTo={onscroll} percentage={(page + 1) * (100 / slides.length)} />
+        }
+
 
       </View>
     </SafeAreaView>
@@ -77,13 +86,13 @@ const OnBoarding2 = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: myColors.primary,
+    backgroundColor: myColors.secondary,
   }
 });
 
 
-const NextBtn = ({ percentage, scrollTo }) => {
-  const size = 100
+const NextBtn = ({ percentage, scrollTo,page }) => {
+  const size = 70
 
   const strokewitdth = 2
 
@@ -128,14 +137,14 @@ const NextBtn = ({ percentage, scrollTo }) => {
 
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Svg width={size} height={size}>
-        <G rotation="-90" origin={center}>
-          <Circle stroke="#E6E7E8" cx={center} cy={center} r={radius} strokeWidth={strokewitdth}
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: myColors.primary }}>
+      <Svg width={size} height={size} fill={myColors.secondary}>
+        <G rotation="-90" origin={center} >
+          <Circle stroke='#FFFFFF' cx={center} cy={center} r={radius} strokeWidth={strokewitdth}
           />
           <Circle
             ref={progressRef}
-            stroke="#F4338F"
+            stroke="#1980E6"
             cx={center} cy={center} r={radius}
             strokeWidth={strokewitdth}
             strokeDasharray={circumference}
@@ -152,7 +161,6 @@ const NextBtn = ({ percentage, scrollTo }) => {
             alignSelf: 'center',
             width: 50,
             height: 50,
-
           }}
         />
       </TouchableOpacity>

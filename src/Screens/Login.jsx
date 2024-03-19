@@ -1,24 +1,27 @@
-import { View, Text, ScrollView, Image, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, ScrollView, Image, TextInput, TouchableOpacity, Pressable } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { myColors } from '../Utils/MyColors'
 import { StatusBar } from 'expo-status-bar'
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons ,Fontisto } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native'
 
+
 const Login = () => {
-  const nav = useNavigation()
-  const [isVisible, setisVisible] = useState(true);
-  return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: myColors.secondary }}>
+    const nav = useNavigation()
+    const [isVisible, setisVisible] = useState(true);
+    const [isCheck, setisCheck] = useState(false);
+
+    return (
+        <SafeAreaView style={{ flex: 1, backgroundColor: myColors.secondary }}>
             <StatusBar />
             <ScrollView style={{ flex: 1, paddingTop: 30 }}>
-                <Image style={{ alignSelf: 'center' }}
-                    source={require('../assets/mainicon.png')} />
+                <Image style={{ alignSelf: 'center', width: 100, height: 100 }}
+                    source={require('../assets/unnamed.png')} />
                 <View style={{ paddingHorizontal: 20, paddingTop: 50 }} >
-                    <Text style={{ color: myColors.third, fontSize: 24, fontWeight: "500" }} >Sign Up</Text>
+                    <Text style={{ color: myColors.third, fontSize: 24, fontWeight: "500" }} >Login</Text>
                     <Text style={{ fontSize: 16, fontWeight: '400', color: 'grey', marginTop: 10 }} >Enter your credentials to continue</Text>
-                    
+
                     {/* Email  */}
                     <Text style={{ fontSize: 16, fontWeight: '500', color: 'grey', marginTop: 40 }} >Email</Text>
                     <TextInput keyboardType='email-address'
@@ -32,11 +35,20 @@ const Login = () => {
                         <Ionicons onPress={() => setisVisible(!isVisible)} name={isVisible === true ? 'eye-off-outline' : 'eye-outline'} size={24} color='black' />
                     </View>
 
+                    <View style={{ flexDirection: 'row', gap:12 ,alignContent:'center', alignItems:'center'}}>
+                        {/* <Pressable onPress={() => setisCheck(!isCheck)} >
+                            <View style={{ borderColor: 'black', width: 18, height: 18, borderWidth: 2, marginTop: 20, }}>
+                       
+                            {isCheck ?  <Image source={require('../assets/check.png')} style={{width: 25, height: 20,alignSelf:'auto', marginStart: -5}}></Image> : ''}
+                            </View>
 
-                    <Text numberOfLines={2} style={{ fontSize: 14, fontWeight: '400', color: 'black', marginTop: 15, letterSpacing: 0.7, lineHeight: 25, width: "95%" }}>
-                        By continuing you agree to our terms of services and privacy policy
-                    </Text>
+                        </Pressable> */}
+                        <Fontisto onPress={()=> setisCheck(!isCheck)} name={isCheck === true ? 'checkbox-active' : 'checkbox-passive'} size={18} color='black' />
+                        <Text numberOfLines={2} style={{ fontSize: 14, fontWeight: '400', color: 'black', marginTop: 15, letterSpacing: 0.7, lineHeight: 25, width: "95%" }}>
+                                By continuing you agree to our terms of services and privacy policy
+                            </Text>
 
+                    </View>
 
                     <TouchableOpacity
                         onPress={() => {
@@ -54,10 +66,15 @@ const Login = () => {
                     >
                         <Text style={{ fontSize: 19, fontWeight: '500', color: myColors.secondary }} >Login</Text>
                     </TouchableOpacity>
+
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 20 }}>
+                        <Text>Forgot Password ?</Text>
+                        <Text>Sign Up</Text>
+                    </View>
                 </View>
             </ScrollView>
         </SafeAreaView>
-  );
+    );
 }
 
 export default Login

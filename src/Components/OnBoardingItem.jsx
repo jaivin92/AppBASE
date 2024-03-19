@@ -1,10 +1,30 @@
 import { StyleSheet, Text, View, Image, useWindowDimensions } from 'react-native'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { myColors } from '../Utils/MyColors';
+import Lottie from 'lottie-react-native'
+import Svg, { Path } from 'react-native-svg'
+
+import {Animated, Easing } from 'react-native'
+const AnimatedSvg = Animated.createAnimatedComponent(Lottie)
+
 
 const OnBoardingItem = ({ item }) => {
 
     const { width, height } = useWindowDimensions();
+
+    const animationProgres = useRef(new Animated.Value(0));
+
+    useEffect(() => {
+      Animated.timing(animationProgres.current,{
+        toValue: 1,
+        duration: 5000,
+        easing: Easing.linear,
+        useNativeDriver: false,
+      }).start();
+    
+    }, [])
+    
+        
 
     // return (
     //     <View style={{ alignItems: 'center' }}>
@@ -20,7 +40,8 @@ const OnBoardingItem = ({ item }) => {
     return (
             <View style={[styles.container, { width }]}>
                 {/* <Text>OnBoardingItem</Text> */}
-                <Image source={item.image} style={[styles.image, {height:'50%', width:'50%' , resizeMode: 'contain', borderRadius: 30, borderWidth:1}]} />
+                {/* <Image source={item.image} style={[styles.image, {height:'50%', width:'50%' , resizeMode: 'contain', borderRadius: 30, borderWidth:1}]} /> */}
+                <AnimatedSvg  autoPlay loop source={item.image}  style={[styles.image,  {height: '50%', width}]}  />
                 <View style={{ flex: 0.3 }}>
                     <Text style={styles.title}>{item.title}</Text>
                     <Text style={styles.normaltext}>{item.description}</Text>
