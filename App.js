@@ -22,7 +22,7 @@ const App = () => {
         <Stack.Screen name="OnBoarding2" component={OnBoarding2} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Signup" component={Signup} />
-        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Home" component={Home}  />
       </Stack.Navigator>
     </NavigationContainer>
   )

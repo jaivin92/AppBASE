@@ -14,8 +14,8 @@ const Signup = () => {
         <SafeAreaView style={{ flex: 1, backgroundColor: myColors.secondary }}>
             <StatusBar />
             <ScrollView style={{ flex: 1, paddingTop: 30 }}>
-                <Image style={{ alignSelf: 'center' }}
-                    source={require('../assets/mainicon.png')} />
+                <Image style={{ alignSelf: 'center', width : 100, height: 100 }}
+                    source={require('../assets/unnamed.png')} />
                 <View style={{ paddingHorizontal: 20, paddingTop: 50 }} >
                     <Text style={{ color: myColors.third, fontSize: 24, fontWeight: "500" }} >Sign Up</Text>
                     <Text style={{ fontSize: 16, fontWeight: '400', color: 'grey', marginTop: 10 }} >Enter your credentials to continue</Text>
@@ -41,7 +41,6 @@ const Signup = () => {
                     <Text numberOfLines={2} style={{ fontSize: 14, fontWeight: '400', color: 'black', marginTop: 15, letterSpacing: 0.7, lineHeight: 25, width: "95%" }}>
                         By continuing you agree to our terms of services and privacy policy
                     </Text>
-
 
                     <TouchableOpacity
                         onPress={() => {
