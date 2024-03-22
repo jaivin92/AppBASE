@@ -14,7 +14,7 @@ const Signup = () => {
         <SafeAreaView style={{ flex: 1, backgroundColor: myColors.secondary }}>
             <StatusBar />
             <ScrollView style={{ flex: 1, paddingTop: 30 }}>
-                <Image style={{ alignSelf: 'center', width : 100, height: 100 }}
+                <Image style={{ alignSelf: 'center', width: 100, height: 100 }}
                     source={require('../assets/unnamed.png')} />
                 <View style={{ paddingHorizontal: 20, paddingTop: 50 }} >
                     <Text style={{ color: myColors.third, fontSize: 24, fontWeight: "500" }} >Sign Up</Text>
@@ -58,7 +58,7 @@ const Signup = () => {
                         <Text style={{ fontSize: 19, fontWeight: '500', color: myColors.secondary }} >Sign Up</Text>
                     </TouchableOpacity>
 
-                    <View style={{ flexDirection: 'row', justifyContent: 'center', gap: 5, marginTop:20 }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', gap: 5, marginTop: 20 }}>
                         <Text style={{ fontSize: 16, }} >Already have an account?</Text>
                         <TouchableOpacity
                             onPress={() => {

@@ -2,7 +2,6 @@
 
 import React, { useState, useRef, useEffect } from 'react'
 import { View, Text, StyleSheet, FlatList, useWindowDimensions, Image, Animated, Easing, TouchableOpacity } from 'react-native'
-import { View, Text, StyleSheet, FlatList, useWindowDimensions, Image, Animated, Easing, TouchableOpacity } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { myColors } from '../Utils/MyColors'
 import { StatusBar } from 'expo-status-bar'
@@ -11,21 +10,16 @@ import { slides } from '../../AppData'
 import Svg, { G, Circle } from "react-native-svg";
 import { useNavigation } from '@react-navigation/native'
 import Lottie from 'lottie-react-native'
-import Lottie from 'lottie-react-native'
 
-const AnimatedSvg = Animated.createAnimatedComponent(Lottie)
 const AnimatedSvg = Animated.createAnimatedComponent(Lottie)
 
 const OnBoarding2 = () => {
   const nav = useNavigation()
   const [page, setpage] = useState(0)
   const ref = useRef(null)
-  const { width, height } = useWindowDimensions();
-
-
+  const { width } = useWindowDimensions();
 
   const updateCurrentSlideIndex = e => {
-    //console.log(`current page updateCurrentSlideIndex ->  ${page}`)
     const contentOffsetX = e.nativeEvent.contentOffset.x;
     const currentIndex = Math.round(contentOffsetX / width);
     ref.current.scrollToIndex({ index: currentIndex })
@@ -52,8 +46,6 @@ const OnBoarding2 = () => {
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         onMomentumScrollEnd={updateCurrentSlideIndex}
-        //        scrollEventThrottle={32}
-        //        scrollEventThrottle={32}
         horizontal
         data={slides}
         renderItem={({ item }) => <OnBoardingItem item={item} />}
@@ -63,13 +55,6 @@ const OnBoarding2 = () => {
       />
 
       <View style={{ marginBottom: 60, }}>
-        {/* {page == slides.length - 1 ?
-          <TouchableOpacity onPress={() => onscroll()}>
-          <AnimatedSvg autoPlay loop source={require('../assets/lottie/rightarrow.icon.json')}
-            style={{height: 60, width: 60, alignSelf:'center' }} />
-            </TouchableOpacity> :
-           <NextBtn scrollTo={onscroll} percentage={(page + 1) * (100 / slides.length)} currentpage={page} totalpage={slides.length} />
-        } */}
 
         <NextBtn scrollTo={onscroll} percentage={(page + 1) * (100 / slides.length)} currentpage={page} totalpage={slides.length} />
       </View>
@@ -149,21 +134,14 @@ const NextBtn = ({ percentage, scrollTo, currentpage, totalpage }) => {
       <Svg width={size} height={size} fill={myColors.secondary}>
         <G rotation="-90" origin={center} >
           <Circle stroke='#FFFFFF' cx={center} cy={center} r={radius} strokeWidth={strokewitdth}
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: myColors.primary }}>
-      <Svg width={size} height={size} fill={myColors.secondary}>
-        <G rotation="-90" origin={center} >
-          <Circle stroke='#FFFFFF' cx={center} cy={center} r={radius} strokeWidth={strokewitdth}
           />
           <Circle
             ref={progressRef}
             stroke="#1980E6"
-            stroke="#1980E6"
             cx={center} cy={center} r={radius}
             strokeWidth={strokewitdth}
             strokeDasharray={circumference}
-
           />
-
         </G>
       </Svg>
       <TouchableOpacity onPress={scrollTo} style={{ position: 'absolute' }} activeOpacity={0.6}>
@@ -177,20 +155,10 @@ const NextBtn = ({ percentage, scrollTo, currentpage, totalpage }) => {
               height: 50,
             }}
           />
-
         }
-        {/* <Image source={require('../assets/unnamed.png')}
-           style={{
-             resizeMode: 'contain',
-             alignSelf: 'center',
-             width: 50,
-             height: 50,
-           }}
-         /> */}
       </TouchableOpacity>
     </View>
   )
-
 }
 
 export default OnBoarding2
