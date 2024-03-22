@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react'
 import { View, Text, StyleSheet, FlatList, useWindowDimensions, Image, Animated, Easing, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, FlatList, useWindowDimensions, Image, Animated, Easing, TouchableOpacity } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { myColors } from '../Utils/MyColors'
 import { StatusBar } from 'expo-status-bar'
@@ -10,7 +11,9 @@ import { slides } from '../../AppData'
 import Svg, { G, Circle } from "react-native-svg";
 import { useNavigation } from '@react-navigation/native'
 import Lottie from 'lottie-react-native'
+import Lottie from 'lottie-react-native'
 
+const AnimatedSvg = Animated.createAnimatedComponent(Lottie)
 const AnimatedSvg = Animated.createAnimatedComponent(Lottie)
 
 const OnBoarding2 = () => {
@@ -34,6 +37,7 @@ const OnBoarding2 = () => {
     if (page < slides.length - 1) {
       ref?.current.scrollToIndex({ index: page + 1 })
       setpage(page + 1);
+      setpage(page + 1);
     } else {
       console.log("Last Item")
       nav.replace('Login');
@@ -48,6 +52,7 @@ const OnBoarding2 = () => {
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         onMomentumScrollEnd={updateCurrentSlideIndex}
+        //        scrollEventThrottle={32}
         //        scrollEventThrottle={32}
         horizontal
         data={slides}
@@ -76,6 +81,7 @@ const OnBoarding2 = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: myColors.secondary,
     backgroundColor: myColors.secondary,
   }
 });
@@ -143,9 +149,14 @@ const NextBtn = ({ percentage, scrollTo, currentpage, totalpage }) => {
       <Svg width={size} height={size} fill={myColors.secondary}>
         <G rotation="-90" origin={center} >
           <Circle stroke='#FFFFFF' cx={center} cy={center} r={radius} strokeWidth={strokewitdth}
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: myColors.primary }}>
+      <Svg width={size} height={size} fill={myColors.secondary}>
+        <G rotation="-90" origin={center} >
+          <Circle stroke='#FFFFFF' cx={center} cy={center} r={radius} strokeWidth={strokewitdth}
           />
           <Circle
             ref={progressRef}
+            stroke="#1980E6"
             stroke="#1980E6"
             cx={center} cy={center} r={radius}
             strokeWidth={strokewitdth}

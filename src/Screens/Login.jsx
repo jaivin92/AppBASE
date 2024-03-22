@@ -68,9 +68,13 @@ const Login = () => {
             <ScrollView style={{ flex: 1, paddingTop: 30 }}>
                 <Image style={{ alignSelf: 'center', width: 100, height: 100 }}
                     source={require('../assets/unnamed.png')} />
+                <Image style={{ alignSelf: 'center', width: 100, height: 100 }}
+                    source={require('../assets/unnamed.png')} />
                 <View style={{ paddingHorizontal: 20, paddingTop: 50 }} >
                     <Text style={{ color: myColors.third, fontSize: 24, fontWeight: "500" }} >Login</Text>
+                    <Text style={{ color: myColors.third, fontSize: 24, fontWeight: "500" }} >Login</Text>
                     <Text style={{ fontSize: 16, fontWeight: '400', color: 'grey', marginTop: 10 }} >Enter your credentials to continue</Text>
+
 
                     {/* Email  */}
                     <Text style={{ fontSize: 16, fontWeight: '500', color: 'grey', marginTop: 40 }} >Email</Text>
@@ -103,6 +107,7 @@ const Login = () => {
                         </Text>
 
                     </View>
+                    </View>
 
                     <TouchableOpacity
                         onPress={
@@ -126,9 +131,15 @@ const Login = () => {
                         <Text>Forgot Password ?</Text>
                         <Text>Sign Up</Text>
                     </View>
+
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 20 }}>
+                        <Text>Forgot Password ?</Text>
+                        <Text>Sign Up</Text>
+                    </View>
                 </View>
             </ScrollView>
         </SafeAreaView>
+    );
     );
 }
 
