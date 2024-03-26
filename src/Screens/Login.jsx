@@ -5,8 +5,8 @@ import { myColors } from '../Utils/MyColors'
 import { StatusBar } from 'expo-status-bar'
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native'
-
 import CmpInputText from '../Components/CmpInputText';
+import CmpButtonFullSize from '../Components/CmpButton'
 
 const LoginData = {
     email: '',
@@ -15,42 +15,58 @@ const LoginData = {
 
 const Login = () => {
     const nav = useNavigation()
-    const [isVisible, setisVisible] = useState(true);
+    const [isLoading, setisLoading] = useState(false);
     const [isCheck, setisCheck] = useState(false);
     const [userLogin, setuserLogin] = useState(LoginData);
     const [userLoginError, setuserLoginError] = useState(LoginData);
+    const [isValidate, setIsValidate] = useState(false)
 
     const handleChange = (e, input) => {
         try {
-            //console.log(e, input);    
             setuserLogin({ ...userLogin, [input]: e })
-            //            console.log(`user input ${userLogin.email}`);
-            let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-            if (!reg.test(userLogin.email)) {
-                LoginData.email = "Please Enter Email"
-                setuserLoginError(LoginData)
-                return
-            } else if(userLogin.password.length < 8) {
-                LoginData.email = undefined
-                LoginData.password = "Password should be at least 8 characters long"
-                setuserLoginError(LoginData)
-                return
-            } else {
-                LoginData.password = undefined
-                LoginData.email = undefined
-                setuserLoginError(LoginData)
+            if (isValidate) {
+                validate()
             }
-
         } catch (error) {
             console.log(`Error ${error}`);
         }
     }
 
+    const validate = () => {
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+        if (!reg.test(userLogin.email)) {
+            LoginData.email = "Please Enter Email"
+            setuserLoginError(LoginData)
+            return false
+        } else if (userLogin.password.length < 8) {
+            LoginData.email = undefined
+            LoginData.password = "Password should be at least 8 characters long"
+            setuserLoginError(LoginData)
+            return false
+        } else {
+            LoginData.password = undefined
+            LoginData.email = undefined
+            setuserLoginError(LoginData)
+            return true
+        }
+
+    }
+
     const onLoginClick = () => {
         Keyboard.dismiss();
-        console.log(`Data fill Value ${userLogin.email} `)
-        console.log(`Data fill Error ${userLoginError.email} `)
-        nav.navigate("Home")
+        setisLoading(true)
+        setIsValidate(true);
+        if (validate()) {
+            nav.navigate("Home")
+            setIsValidate(false);
+        } else {
+            setTimeout(() => {
+                setisLoading(false)
+            }, 2000);
+        }
+        //console.log(`Data fill Value ${userLogin.email} `)
+        //console.log(`Data fill Error ${userLoginError.email} `)
+        // nav.navigate("Home")
     }
 
     return (
@@ -69,6 +85,7 @@ const Login = () => {
                         name="email"
                         onError={userLoginError.email}
                         handleTextChange={handleChange}
+                        keyboardType='email-address'
                     />
 
                     <CmpInputText
@@ -77,13 +94,14 @@ const Login = () => {
                         onError={userLoginError.password}
                         handleTextChange={handleChange}
                         password={true}
+                        keyboardType='ascii-capable'
                     />
 
 
                     <View style={{ flexDirection: 'row', gap: 5, alignContent: 'center', alignItems: 'center' }}>
                         <MaterialIcons onPress={() => setisCheck(!isCheck)} name={isCheck === true ? 'check-box-outline-blank' : 'check-box'} size={20} color='black' />
                         <Text numberOfLines={2} style={{
-                            fontSize: 14, fontWeight: '400', color: 'black', marginTop: 20, letterSpacing: 0.7,
+                            fontSize: 14, fontWeight: '400', color: 'black', marginTop: 10, letterSpacing: 0.7,
                             lineHeight: 25, width: "95%",
                         }}>
                             By continuing you agree to our terms of services and privacy policy
@@ -91,23 +109,12 @@ const Login = () => {
 
                     </View>
 
-                    <TouchableOpacity
-                        onPress={
-                            //console.log("Press")
-                            //nav.navigate("Home")
-                            onLoginClick
-                        }
-                        style={{
-                            backgroundColor: myColors.primary,
-                            marginTop: 30,
-                            height: 70,
-                            borderRadius: 20,
-                            justifyContent: 'center',
-                            alignItems: 'center'
-                        }}
-                    >
-                        <Text style={{ fontSize: 19, fontWeight: '500', color: myColors.secondary }} >Login</Text>
-                    </TouchableOpacity>
+                    <CmpButtonFullSize 
+                        onPress={onLoginClick} 
+                        btnlable={"Login"}
+                        isLoading={isLoading}
+                        marginTop={20}
+                    />
 
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 20 }}>
                         <Text>Forgot Password ?</Text>

@@ -11,6 +11,8 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import Animated, { useAnimatedStyle, withTiming, useDerivedValue } from 'react-native-reanimated'
 const AnimatedSvg = Animated.createAnimatedComponent(Svg)
 import { myColors } from '../Utils/MyColors'
+import MainScreen from './bottommenu/MainScreen'
+
 const Home = () => {
   const Tab = createBottomTabNavigator()
 
@@ -43,7 +45,7 @@ const Home = () => {
           },
           headerTitleAlign:'center'
         }}
-          component={PlaceholderScreen}
+          component={MainScreen}
 
         />
 

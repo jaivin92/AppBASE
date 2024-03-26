@@ -19,7 +19,7 @@
 //         const currentIndex = Math.round(contentOffsetX / width);
 //         setpage(currentIndex);
 //       };
-    
+
 //       const goToNextSlide = () => {
 //         const nextSlideIndex = page + 1;
 //         if (nextSlideIndex != slides.length) {
@@ -28,7 +28,7 @@
 //           setpage(page + 1);
 //         }
 //       };
-    
+
 //       const skip = () => {
 //         const lastSlideIndex = slides.length - 1;
 //         const offset = lastSlideIndex * width;
@@ -38,7 +38,7 @@
 
 //     const { width, height } = useWindowDimensions();
 //     return (
-   
+
 //             <FlatList
 //                 ref={ref}
 //                 pagingEnabled
@@ -86,9 +86,9 @@ import {
 } from 'react-native';
 
 import Svg, { G, Circle } from "react-native-svg";
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
-const COLORS = {primary: '#282534', white: '#fff'};
+const COLORS = { primary: '#282534', white: '#fff' };
 
 const slides = [
   {
@@ -111,12 +111,12 @@ const slides = [
   },
 ];
 
-const Slide = ({item}) => {
+const Slide = ({ item }) => {
   return (
-    <View style={{alignItems: 'center'}}>
+    <View style={{ alignItems: 'center' }}>
       <Image
         source={item?.image}
-        style={{height: '75%', width, resizeMode: 'contain'}}
+        style={{ height: '75%', width, resizeMode: 'contain' }}
       />
       <View>
         <Text style={styles.title}>{item?.title}</Text>
@@ -126,7 +126,7 @@ const Slide = ({item}) => {
   );
 };
 
-const OnboardingScreen = ({navigation}) => {
+const OnboardingScreen = ({ navigation }) => {
   const [currentSlideIndex, setCurrentSlideIndex] = React.useState(0);
   const ref = React.useRef();
   const updateCurrentSlideIndex = e => {
@@ -139,7 +139,7 @@ const OnboardingScreen = ({navigation}) => {
     const nextSlideIndex = currentSlideIndex + 1;
     if (nextSlideIndex != slides.length) {
       const offset = nextSlideIndex * width;
-      ref?.current.scrollToOffset({offset});
+      ref?.current.scrollToOffset({ offset });
       setCurrentSlideIndex(currentSlideIndex + 1);
     }
   };
@@ -147,7 +147,7 @@ const OnboardingScreen = ({navigation}) => {
   const skip = () => {
     const lastSlideIndex = slides.length - 1;
     const offset = lastSlideIndex * width;
-    ref?.current.scrollToOffset({offset});
+    ref?.current.scrollToOffset({ offset });
     setCurrentSlideIndex(lastSlideIndex);
   };
 
@@ -180,12 +180,12 @@ const OnboardingScreen = ({navigation}) => {
             />
           ))}
         </View>
-        <NextBtn  percentage={(currentSlideIndex +1) * (100/slides.length)} />
+        <NextBtn percentage={(currentSlideIndex + 1) * (100 / slides.length)} />
 
         {/* Render buttons */}
-        <View style={{marginBottom: 20}}>
+        <View style={{ marginBottom: 20 }}>
           {currentSlideIndex == slides.length - 1 ? (
-            <View style={{height: 50}}>
+            <View style={{ height: 50 }}>
               {/* <TouchableOpacity
                 style={styles.btn}
                 onPress={() => navigation.replace('Login')}>
@@ -195,7 +195,7 @@ const OnboardingScreen = ({navigation}) => {
               </TouchableOpacity> */}
             </View>
           ) : (
-            <View style={{flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row' }}>
               <TouchableOpacity
                 activeOpacity={0.8}
                 style={[
@@ -206,8 +206,8 @@ const OnboardingScreen = ({navigation}) => {
                     backgroundColor: 'transparent',
                   },
                 ]}
-                //onPress={skip}
-                >
+              //onPress={skip}
+              >
                 {/* <Text
                   style={{
                     fontWeight: 'bold',
@@ -216,10 +216,10 @@ const OnboardingScreen = ({navigation}) => {
                   }}>
                   SKIP
                 </Text> */}
-              
+
 
               </TouchableOpacity>
-              <View style={{width: 15}} />
+              <View style={{ width: 15 }} />
               <TouchableOpacity
                 activeOpacity={0.8}
                 //onPress={goToNextSlide}
@@ -240,17 +240,17 @@ const OnboardingScreen = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: COLORS.primary}}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.primary }}>
       <StatusBar backgroundColor={COLORS.primary} />
       <FlatList
         ref={ref}
         onMomentumScrollEnd={updateCurrentSlideIndex}
-        contentContainerStyle={{height: height * 0.75}}
+        contentContainerStyle={{ height: height * 0.75 }}
         showsHorizontalScrollIndicator={false}
         horizontal
         data={slides}
         pagingEnabled
-        renderItem={({item}) => <Slide item={item} />}
+        renderItem={({ item }) => <Slide item={item} />}
       />
       <Footer />
     </SafeAreaView>
@@ -297,14 +297,14 @@ const styles = StyleSheet.create({
 
 
 
-const NextBtn =({percentage}) =>{
-  const size =60
+const NextBtn = ({ percentage }) => {
+  const size = 60
 
   const strokewitdth = 2
 
-  const center = size/2
+  const center = size / 2
 
-  const radius = size/2 - strokewitdth/2
+  const radius = size / 2 - strokewitdth / 2
 
   const circumference = 2 * Math.PI * radius
 
@@ -312,9 +312,9 @@ const NextBtn =({percentage}) =>{
   const progressRef = useRef(null);
 
   const animation = (toValue) => {
-    return Animated.timing(progressAnimation,{
+    return Animated.timing(progressAnimation, {
       toValue,
-      duration:250,
+      duration: 250,
       useNativeDriver: true
     }).start()
   }
@@ -322,35 +322,35 @@ const NextBtn =({percentage}) =>{
 
   useEffect(() => {
     animation(percentage)
-  },[percentage])
-  
+  }, [percentage])
 
-  useEffect(()=>{
-    progressAnimation.addListener((value)=>{
-        const strokeDashoffset = circumference - (circumference * value.value)/100
 
-        if (progressRef?.current) {
-          progressRef.current.setNativeProps({strokeDashoffset})
-        }
+  useEffect(() => {
+    progressAnimation.addListener((value) => {
+      const strokeDashoffset = circumference - (circumference * value.value) / 100
+
+      if (progressRef?.current) {
+        progressRef.current.setNativeProps({ strokeDashoffset })
+      }
     },
-    [percentage])
+      [percentage])
   })
 
 
-  return(
-    <View style = {{flex:1, justifyContent: 'center' , alignItems :'center'}}>
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Svg width={size} height={size}>
         <G rotation="-90" origin={center}>
-        <Circle stroke="#E6E7E8" cx={center} cy={center} r={radius} strokeWidth={strokewitdth}
-        />
-        <Circle 
-          ref={progressRef}
-          stroke="#F4338F"
-          cx={center} cy={center} r={radius} strokeWidth={strokewitdth}
-          strokeDasharray={circumference}
-          
+          <Circle stroke="#E6E7E8" cx={center} cy={center} r={radius} strokeWidth={strokewitdth}
           />
-</G>
+          <Circle
+            ref={progressRef}
+            stroke="#F4338F"
+            cx={center} cy={center} r={radius} strokeWidth={strokewitdth}
+            strokeDasharray={circumference}
+
+          />
+        </G>
       </Svg>
 
     </View>

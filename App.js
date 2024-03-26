@@ -1,7 +1,8 @@
-import { View, Text } from 'react-native'
-import React from 'react';
+import { View, Text ,Platform } from 'react-native';
+import React, {useEffect} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import SystemNavigationBar from 'react-native-system-navigation-bar';
 import Splash from './src/Screens/Splash';
 import Login from './src/Screens/Login';
 import Signup from './src/Screens/Signup';
@@ -9,9 +10,13 @@ import OnBoarding from './src/Screens/OnBoarding';
 import OnBoarding2 from './src/Screens/OnBoarding2';
 import Home from './src/Screens/Home';
 
+
 const Stack = createNativeStackNavigator();
 
 const App = () => {
+  //hide android system navigation 
+  SystemNavigationBar.navigationHide();
+
   return (
     <NavigationContainer>
       <Stack.Navigator 
