@@ -5,7 +5,12 @@
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "42c498bd-08f5-4ae3-aa2e-0e8b9da6a876"
+      }
+    }
   },
   "name": "appbase"
 }

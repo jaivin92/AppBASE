@@ -21,7 +21,7 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator 
      // initialRouteName='Splash'
-      initialRouteName='Login'
+      initialRouteName='Home'
       screenOptions={{headerShown :false}}>
         <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="OnBoarding" component={OnBoarding} />
