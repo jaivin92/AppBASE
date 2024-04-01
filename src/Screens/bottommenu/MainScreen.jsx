@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet,  FlatList,} from 'react-native'
+import { View, Text, StyleSheet, FlatList, } from 'react-native'
 import { useSharedValue } from 'react-native-reanimated';
 import React, { useState } from 'react'
 import CmpHscreen from '../../Components/CmpHscreen';
@@ -6,19 +6,18 @@ import CmpHscreen from '../../Components/CmpHscreen';
 const data = new Array(50).fill(0).map((_, index) => ({ id: index }))
 
 const MainScreen = () => {
-    const viewableItems  = useSharedValue([]); 
+    const viewableItems = useSharedValue([]);
 
     return (
         <View style={styles.container}>
-            <Text>MainScreen</Text>
             <FlatList
                 data={data}
-                contentContainerStyle={{paddingTop:20}}
-                onViewableItemsChanged={({viewableItems : singleitem})=>{
+                contentContainerStyle={{ paddingTop: 20 }}
+                onViewableItemsChanged={({ viewableItems: singleitem }) => {
                     viewableItems.value = singleitem
                 }}
-                renderItem={({item }) => {
-                    return  <CmpHscreen item={item} viewableItems={viewableItems} />
+                renderItem={({ item }) => {
+                    return <CmpHscreen item={item} viewableItems={viewableItems} />
                 }}
             />
         </View>

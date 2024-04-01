@@ -12,6 +12,8 @@ import Animated, { useAnimatedStyle, withTiming, useDerivedValue } from 'react-n
 const AnimatedSvg = Animated.createAnimatedComponent(Svg)
 import { myColors } from '../Utils/MyColors'
 import MainScreen from './bottommenu/MainScreen'
+import UploadScreen from './bottommenu/UploadScreen'
+import ChatScreen from './bottommenu/ChatScreen'
 
 const Home = () => {
   const Tab = createBottomTabNavigator()
@@ -33,8 +35,11 @@ const Home = () => {
     <>
       <StatusBar barStyle="light-content" />
 
-      <Tab.Navigator tabBar={props => <AnimatedTabBar {...props} />} initialRouteName='Homes'  >
-        <Tab.Screen name="Homes" options={{
+      <Tab.Navigator tabBar={props => <AnimatedTabBar {...props} />} 
+        initialRouteName='Dashboard'  
+        //initialRouteName='Chat'  
+      >
+        <Tab.Screen name="Dashboard" options={{
           tabBarIcon: ({ ref }) => <Lottie ref={ref} loop={false} source={require('../assets/lottie/home.icon.json')} style={styles.icon} />,
           headerShadowVisible: true,
           headerStyle: {
@@ -53,14 +58,14 @@ const Home = () => {
           tabBarIcon: ({ ref }) => <Lottie ref={ref} loop={false} source={require('../assets/lottie/upload.icon.json')} style={styles.icon} />,
           ...screenOptions,
         }}
-          component={PlaceholderScreen}
+          component={UploadScreen}
         />
 
-        <Tab.Screen name="Chat" options={{
+        <Tab.Screen name="Image" options={{
           tabBarIcon: ({ ref }) => <Lottie ref={ref} loop={false} source={require('../assets/lottie/chat.icon.json')} style={styles.icon} />,
           ...screenOptions,
         }}
-          component={PlaceholderScreen}
+          component={ChatScreen}
         />
 
         <Tab.Screen name="Settings" options={{

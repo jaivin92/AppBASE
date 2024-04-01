@@ -3,6 +3,8 @@ import Animated, {
     useAnimatedStyle,
     withTiming,
 } from 'react-native-reanimated';
+import { myColors } from '../Utils/MyColors';
+import { Text } from 'react-native';
 
 const CmpHscreen = ({ item, viewableItems }) => {
     const rStyle = useAnimatedStyle(() => {
@@ -28,11 +30,19 @@ const CmpHscreen = ({ item, viewableItems }) => {
         <Animated.View style={[{
             height: 80,
             width: '90%',
-            backgroundColor: 'red',
+            backgroundColor: myColors.lightblue,
             marginBottom: 10,
             alignSelf: 'center',
             borderRadius: 15
-        }, rStyle]} />
+        }, rStyle]} >
+            <Text style={{
+                alignSelf: 'flex-end',
+                marginTop: 5,
+                marginEnd: 10,
+                fontSize: 15,
+                color: myColors.secondary
+            }} >{item.id}</Text>
+        </Animated.View>
     )
 }
 

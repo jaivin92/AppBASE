@@ -10,7 +10,6 @@ import OnBoarding from './src/Screens/OnBoarding';
 import OnBoarding2 from './src/Screens/OnBoarding2';
 import Home from './src/Screens/Home';
 
-
 const Stack = createNativeStackNavigator();
 
 const App = () => {
@@ -20,8 +19,8 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator 
-     // initialRouteName='Splash'
-      initialRouteName='Home'
+      initialRouteName='Splash'
+      //initialRouteName='Home'
       screenOptions={{headerShown :false}}>
         <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="OnBoarding" component={OnBoarding} />
