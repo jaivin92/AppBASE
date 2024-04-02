@@ -1,304 +1,79 @@
 
 
-// import React,{useState, useRef} from 'react'
-// import { View, Text, StyleSheet, FlatList, useWindowDimensions } from 'react-native'
-// import { SafeAreaView } from 'react-native-safe-area-context'
-// import { myColors } from '../Utils/MyColors'
-// import { StatusBar } from 'expo-status-bar'
-// import OnBoardingItem from '../Components/OnBoardingItem'
-// import { slides } from '../../AppData'
-
-
-
-// const OnBoarding = () => {
-//     const [page, setpage] = useState(0)
-//     const ref = useRef()
-
-//     const updateCurrentSlideIndex = e => {
-//         const contentOffsetX = e.nativeEvent.contentOffset.x;
-//         const currentIndex = Math.round(contentOffsetX / width);
-//         setpage(currentIndex);
-//       };
-
-//       const goToNextSlide = () => {
-//         const nextSlideIndex = page + 1;
-//         if (nextSlideIndex != slides.length) {
-//           const offset = nextSlideIndex * width;
-//           ref?.current.scrollToOffset({offset});
-//           setpage(page + 1);
-//         }
-//       };
-
-//       const skip = () => {
-//         const lastSlideIndex = slides.length - 1;
-//         const offset = lastSlideIndex * width;
-//         ref?.current.scrollToOffset({offset});
-//         setpage(lastSlideIndex);
-//       };
-
-//     const { width, height } = useWindowDimensions();
-//     return (
-
-//             <FlatList
-//                 ref={ref}
-//                 pagingEnabled
-//                 contentContainerStyle={{ height: height * 0.75 }}
-//                 onMomentumScrollEnd
-//                 showsHorizontalScrollIndicator={false}
-//                 horizontal
-//                 data={slides}
-//                 renderItem={({ item }) => <OnBoardingItem item={item} />}
-//             //    keyExtractor={(item) => item.id}
-//             //horizontal
-//             //showsHorizontalScrollIndicator
-//             // pagingEnabled
-//             // bounces={false}
-//             />
-
-
-//     );
-// }
-
-
-// const styles = StyleSheet.create({
-//     container: {
-//         flex: 1,
-//         backgroundColor: myColors.secondary,
-//     }
-// });
-
-
-// export default OnBoarding
-
-
-import React, { useEffect, useRef } from 'react';
-import {
-  SafeAreaView,
-  Image,
-  StyleSheet,
-  FlatList,
-  View,
-  Text,
-  StatusBar,
-  TouchableOpacity,
-  Dimensions,
-  Animated,
-} from 'react-native';
-
+import React, { useState, useRef, useEffect } from 'react'
+import { View,  StyleSheet, FlatList, useWindowDimensions, Image, Animated, Easing, TouchableOpacity } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { myColors } from '../Utils/MyColors'
+import { StatusBar } from 'expo-status-bar'
+import OnBoardingItem from '../Components/OnBoardingItem'
+import { slides } from '../../AppData'
 import Svg, { G, Circle } from "react-native-svg";
-const { width, height } = Dimensions.get('window');
+import { useNavigation } from '@react-navigation/native'
+import Lottie from 'lottie-react-native'
 
-const COLORS = { primary: '#282534', white: '#fff' };
+const AnimatedSvg = Animated.createAnimatedComponent(Lottie)
 
-const slides = [
-  {
-    id: '1',
-    image: require('../assets/mainicon.png'),
-    title: 'Best Digital Solution',
-    subtitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-  },
-  {
-    id: '2',
-    image: require('../assets/mainicon.png'),
-    title: 'Achieve Your Goals',
-    subtitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-  },
-  {
-    id: '3',
-    image: require('../assets/mainicon.png'),
-    title: 'Increase Your Value',
-    subtitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-  },
-];
+const OnBoarding2 = () => {
+  const nav = useNavigation()
+  const [page, setpage] = useState(0)
+  const ref = useRef(null)
+  const { width } = useWindowDimensions();
 
-const Slide = ({ item }) => {
-  return (
-    <View style={{ alignItems: 'center' }}>
-      <Image
-        source={item?.image}
-        style={{ height: '75%', width, resizeMode: 'contain' }}
-      />
-      <View>
-        <Text style={styles.title}>{item?.title}</Text>
-        <Text style={styles.subtitle}>{item?.subtitle}</Text>
-      </View>
-    </View>
-  );
-};
-
-const OnboardingScreen = ({ navigation }) => {
-  const [currentSlideIndex, setCurrentSlideIndex] = React.useState(0);
-  const ref = React.useRef();
   const updateCurrentSlideIndex = e => {
     const contentOffsetX = e.nativeEvent.contentOffset.x;
     const currentIndex = Math.round(contentOffsetX / width);
-    setCurrentSlideIndex(currentIndex);
+    ref.current.scrollToIndex({ index: currentIndex })
+    setpage(currentIndex);
   };
 
-  const goToNextSlide = () => {
-    const nextSlideIndex = currentSlideIndex + 1;
-    if (nextSlideIndex != slides.length) {
-      const offset = nextSlideIndex * width;
-      ref?.current.scrollToOffset({ offset });
-      setCurrentSlideIndex(currentSlideIndex + 1);
+  const onscroll = () => {
+    console.log(`current page onscroll ->  ${page}     ${slides.length - 1}`)
+    if (page < slides.length - 1) {
+      ref?.current.scrollToIndex({ index: page + 1 })
+      setpage(page + 1);
+      setpage(page + 1);
+    } else {
+      console.log("Last Item")
+      nav.replace('Login');
     }
-  };
-
-  const skip = () => {
-    const lastSlideIndex = slides.length - 1;
-    const offset = lastSlideIndex * width;
-    ref?.current.scrollToOffset({ offset });
-    setCurrentSlideIndex(lastSlideIndex);
-  };
-
-  const Footer = () => {
-    return (
-      <View
-        style={{
-          height: height * 0.25,
-          justifyContent: 'space-between',
-          paddingHorizontal: 20,
-        }}>
-        {/* Indicator container */}
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            marginTop: 20,
-          }}>
-          {/* Render indicator */}
-          {slides.map((_, index) => (
-            <View
-              key={index}
-              style={[
-                styles.indicator,
-                currentSlideIndex == index && {
-                  backgroundColor: COLORS.white,
-                  width: 25,
-                },
-              ]}
-            />
-          ))}
-        </View>
-        <NextBtn percentage={(currentSlideIndex + 1) * (100 / slides.length)} />
-
-        {/* Render buttons */}
-        <View style={{ marginBottom: 20 }}>
-          {currentSlideIndex == slides.length - 1 ? (
-            <View style={{ height: 50 }}>
-              {/* <TouchableOpacity
-                style={styles.btn}
-                onPress={() => navigation.replace('Login')}>
-                <Text style={{fontWeight: 'bold', fontSize: 15}}>
-                  GET STARTED
-                </Text>
-              </TouchableOpacity> */}
-            </View>
-          ) : (
-            <View style={{ flexDirection: 'row' }}>
-              <TouchableOpacity
-                activeOpacity={0.8}
-                style={[
-                  styles.btn,
-                  {
-                    borderColor: COLORS.white,
-                    borderWidth: 1,
-                    backgroundColor: 'transparent',
-                  },
-                ]}
-              //onPress={skip}
-              >
-                {/* <Text
-                  style={{
-                    fontWeight: 'bold',
-                    fontSize: 15,
-                    color: COLORS.white,
-                  }}>
-                  SKIP
-                </Text> */}
-
-
-              </TouchableOpacity>
-              <View style={{ width: 15 }} />
-              <TouchableOpacity
-                activeOpacity={0.8}
-                //onPress={goToNextSlide}
-                style={styles.btn}>
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                    fontSize: 15,
-                  }}>
-                  NEXT
-                </Text>
-              </TouchableOpacity>
-            </View>
-          )}
-        </View>
-      </View>
-    );
-  };
+  }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.primary }}>
-      <StatusBar backgroundColor={COLORS.primary} />
+    <SafeAreaView style={styles.container}>
+      <StatusBar />
       <FlatList
         ref={ref}
-        onMomentumScrollEnd={updateCurrentSlideIndex}
-        contentContainerStyle={{ height: height * 0.75 }}
+        pagingEnabled
         showsHorizontalScrollIndicator={false}
+        onMomentumScrollEnd={updateCurrentSlideIndex}
         horizontal
         data={slides}
-        pagingEnabled
-        renderItem={({ item }) => <Slide item={item} />}
+        renderItem={({ item }) => <OnBoardingItem item={item} />}
+        onscroll={onscroll}
+        keyExtractor={(item) => item.id}
+        bounces={false}
       />
-      <Footer />
+
+      <View style={{ marginBottom: 60, }}>
+
+        <NextBtn scrollTo={onscroll} percentage={(page + 1) * (100 / slides.length)} currentpage={page} totalpage={slides.length} />
+      </View>
     </SafeAreaView>
   );
-};
+}
+
 
 const styles = StyleSheet.create({
-  subtitle: {
-    color: COLORS.white,
-    fontSize: 13,
-    marginTop: 10,
-    maxWidth: '70%',
-    textAlign: 'center',
-    lineHeight: 23,
-  },
-  title: {
-    color: COLORS.white,
-    fontSize: 22,
-    fontWeight: 'bold',
-    marginTop: 20,
-    textAlign: 'center',
-  },
-  image: {
-    height: '100%',
-    width: '100%',
-    resizeMode: 'contain',
-  },
-  indicator: {
-    height: 2.5,
-    width: 10,
-    backgroundColor: 'grey',
-    marginHorizontal: 3,
-    borderRadius: 2,
-  },
-  btn: {
+  container: {
     flex: 1,
-    height: 50,
-    borderRadius: 5,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+    backgroundColor: myColors.secondary,
+    backgroundColor: myColors.secondary,
+  }
 });
 
 
-
-const NextBtn = ({ percentage }) => {
-  const size = 60
+const NextBtn = ({ percentage, scrollTo, currentpage, totalpage }) => {
+  const size = 70
 
   const strokewitdth = 2
 
@@ -310,6 +85,18 @@ const NextBtn = ({ percentage }) => {
 
   const progressAnimation = useRef(new Animated.Value(0)).current;
   const progressRef = useRef(null);
+
+  const animationProgres = useRef(new Animated.Value(0));
+
+  useEffect(() => {
+    Animated.timing(animationProgres.current, {
+      toValue: 1,
+      duration: 5000,
+      easing: Easing.linear,
+      useNativeDriver: false,
+    }).start();
+
+  }, [])
 
   const animation = (toValue) => {
     return Animated.timing(progressAnimation, {
@@ -332,30 +119,48 @@ const NextBtn = ({ percentage }) => {
       if (progressRef?.current) {
         progressRef.current.setNativeProps({ strokeDashoffset })
       }
-    },
-      [percentage])
-  })
+
+    }, [percentage])
+
+    return () => {
+      progressAnimation.removeAllListeners()
+    }
+
+  }, [])
 
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Svg width={size} height={size}>
-        <G rotation="-90" origin={center}>
-          <Circle stroke="#E6E7E8" cx={center} cy={center} r={radius} strokeWidth={strokewitdth}
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: myColors.primary }}>
+      <Svg width={size} height={size} fill={myColors.secondary}>
+        <G rotation="-90" origin={center} >
+          <Circle stroke='#FFFFFF' cx={center} cy={center} r={radius} strokeWidth={strokewitdth}
           />
           <Circle
             ref={progressRef}
-            stroke="#F4338F"
-            cx={center} cy={center} r={radius} strokeWidth={strokewitdth}
+            stroke="#1980E6"
+            cx={center} cy={center} r={radius}
+            strokeWidth={strokewitdth}
             strokeDasharray={circumference}
-
           />
         </G>
       </Svg>
-
+      <TouchableOpacity onPress={scrollTo} style={{ position: 'absolute' }} activeOpacity={0.6}>
+        {currentpage === totalpage - 1 ? <AnimatedSvg autoPlay loop source={require('../assets/lottie/rightarrow.icon.json')}
+          style={{ width: 50, height: 50, alignSelf: 'center' }} /> :
+          <Image source={require('../assets/unnamed.png')}
+            style={{
+              resizeMode: 'contain',
+              alignSelf: 'center',
+              width: 50,
+              height: 50,
+            }}
+          />
+        }
+      </TouchableOpacity>
     </View>
   )
-
 }
 
-export default OnboardingScreen;
+export default OnBoarding2
+
+

@@ -1,19 +1,18 @@
-import { View, Text, StyleSheet, Pressable, Platform } from 'react-native'
+import { View, Text, StyleSheet, Pressable } from 'react-native'
 import React, { useEffect, useReducer, useRef } from 'react'
 
-import { BottomTabBarProps, BottomTabNavigationOptions, createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Lottie from 'lottie-react-native'
 import { StatusBar } from 'expo-status-bar'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Svg, { Path } from 'react-native-svg'
-import { SafeAreaView } from 'react-native-safe-area-context'
-// reanimated
+
 import Animated, { useAnimatedStyle, withTiming, useDerivedValue } from 'react-native-reanimated'
 const AnimatedSvg = Animated.createAnimatedComponent(Svg)
 import { myColors } from '../Utils/MyColors'
 import MainScreen from './bottommenu/MainScreen'
 import UploadScreen from './bottommenu/UploadScreen'
-import ChatScreen from './bottommenu/ChatScreen'
+import ImageScreen from './bottommenu/ImageScreen'
 
 const Home = () => {
   const Tab = createBottomTabNavigator()
@@ -37,7 +36,6 @@ const Home = () => {
 
       <Tab.Navigator tabBar={props => <AnimatedTabBar {...props} />} 
         initialRouteName='Dashboard'  
-        //initialRouteName='Chat'  
       >
         <Tab.Screen name="Dashboard" options={{
           tabBarIcon: ({ ref }) => <Lottie ref={ref} loop={false} source={require('../assets/lottie/home.icon.json')} style={styles.icon} />,
@@ -65,7 +63,7 @@ const Home = () => {
           tabBarIcon: ({ ref }) => <Lottie ref={ref} loop={false} source={require('../assets/lottie/chat.icon.json')} style={styles.icon} />,
           ...screenOptions,
         }}
-          component={ChatScreen}
+          component={ImageScreen}
         />
 
         <Tab.Screen name="Settings" options={{
@@ -86,39 +84,23 @@ const AnimatedTabBar = ({
   descriptors
 }) => {
   const { bottom } = useSafeAreaInsets()
-
-  // get information about the components position on the screen -----
-
   const reducer = (state, action) => {
-    // Add the new value to the state
     return [...state, { x: action.x, index: action.index }]
   }
 
   const [layout, dispatch] = useReducer(reducer, [])
-  //console.log(layout)
 
   const handleLayout = (event, index) => {
     dispatch({ x: event.nativeEvent.layout.x, index })
   }
 
-  // animations ------------------------------------------------------
-
   const xOffset = useDerivedValue(() => {
-    // Our code hasn't finished rendering yet, so we can't use the layout values
     if (layout.length !== routes.length) return 0
-    // We can use the layout values
-    // Copy layout to avoid errors between different threads
-    // We subtract 25 so the active background is centered behind our TabBar Components
-    // 20 pixels is the width of the left part of the svg (the quarter circle outwards)
-    // 5 pixels come from the little gap between the active background and the circle of the TabBar Components
     return [...layout].find(({ index }) => index === activeIndex).x - 25
-    // Calculate the offset new if the activeIndex changes (e.g. when a new tab is selected)
-    // or the layout changes (e.g. when the components haven't finished rendering yet)
   }, [activeIndex, layout])
 
   const animatedStyles = useAnimatedStyle(() => {
     return {
-      // translateX to the calculated offset with a smooth transition
       transform: [{ translateX: withTiming(xOffset.value, { duration: 250 }) }]
     }
   })
@@ -132,7 +114,6 @@ const AnimatedTabBar = ({
         style={[styles.activeBackground, animatedStyles]}
       >
         <Path
-          //fill="#604AE6"
           fill={myColors.primary}
           d="M20 0H0c11.046 0 20 8.953 20 20v5c0 19.33 15.67 35 35 35s35-15.67 35-35v-5c0-11.045 8.954-20 20-20H20z"
         />
@@ -159,17 +140,14 @@ const AnimatedTabBar = ({
 }
 
 const TabBarComponent = ({ active, options, onLayout, onPress }) => {
-  // handle lottie animation -----------------------------------------
   const ref = useRef(null)
 
   useEffect(() => {
     if (active && ref?.current) {
-      // @ts-ignore
       ref.current.play()
     }
   }, [active])
 
-  // animations ------------------------------------------------------
 
   const animatedComponentCircleStyles = useAnimatedStyle(() => {
     return {
@@ -195,7 +173,6 @@ const TabBarComponent = ({ active, options, onLayout, onPress }) => {
       <Animated.View
         style={[styles.iconContainer, animatedIconContainerStyles]}
       >
-        {/* @ts-ignore */}
         {options.tabBarIcon ? options.tabBarIcon({ ref }) : <Text>?</Text>}
       </Animated.View>
     </Pressable>

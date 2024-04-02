@@ -7,20 +7,18 @@ import Splash from './src/Screens/Splash';
 import Login from './src/Screens/Login';
 import Signup from './src/Screens/Signup';
 import OnBoarding from './src/Screens/OnBoarding';
-import OnBoarding2 from './src/Screens/OnBoarding2';
+import OnBoarding2 from './src/Screens/OnBoarding';
 import Home from './src/Screens/Home';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-  //hide android system navigation 
   SystemNavigationBar.navigationHide();
 
   return (
     <NavigationContainer>
       <Stack.Navigator 
       initialRouteName='Splash'
-      //initialRouteName='Home'
       screenOptions={{headerShown :false}}>
         <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="OnBoarding" component={OnBoarding} />

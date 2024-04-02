@@ -8,7 +8,7 @@ const Splash = () => {
     const nav = useNavigation()
     useEffect(() => {
         setTimeout(() => {
-            nav.replace('OnBoarding2')
+            nav.replace('OnBoarding')
         }, 5000);
     }, [])
 

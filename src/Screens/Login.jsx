@@ -1,9 +1,9 @@
-import { View, Text, ScrollView, Image, TextInput, TouchableOpacity, Pressable, Alert, Keyboard } from 'react-native'
+import { View, Text, ScrollView, Image, Keyboard } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { myColors } from '../Utils/MyColors'
 import { StatusBar } from 'expo-status-bar'
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native'
 import CmpInputText from '../Components/CmpInputText';
 import CmpButtonFullSize from '../Components/CmpButton'
@@ -64,9 +64,6 @@ const Login = () => {
                 setisLoading(false)
             }, 2000);
         }
-        //console.log(`Data fill Value ${userLogin.email} `)
-        //console.log(`Data fill Error ${userLoginError.email} `)
-        // nav.navigate("Home")
     }
 
     return (
@@ -109,8 +106,8 @@ const Login = () => {
 
                     </View>
 
-                    <CmpButtonFullSize 
-                        onPress={onLoginClick} 
+                    <CmpButtonFullSize
+                        onPress={onLoginClick}
                         btnlable={"Login"}
                         isLoading={isLoading}
                         marginTop={20}

@@ -1,7 +1,7 @@
 import { View, Text, TextInput, StyleSheet } from 'react-native'
 import React from 'react'
 import { myColors } from '../Utils/MyColors'
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 
 const CmpInputText = ({
   label,
@@ -19,7 +19,6 @@ const CmpInputText = ({
       <Text style={Styles.label}>{label}</Text>
       <View
         style={{ flexDirection: 'row', }}
-      //style={[Styles.input, { borderColor: onError ? 'red' : isFocused ? myColors.darkblue : myColors.lightblue, flexDirection: 'row',  justifyContent: 'space-between'  }]}
       >
         <TextInput
           name='email'
@@ -58,7 +57,6 @@ const Styles = StyleSheet.create({
     color: 'grey',
   },
   input: {
-    //width:'100%',
     flex: 1,
     borderWidth: 1,
     fontSize: 16,
